@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Ativação em Eventos — Field Kit</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -16,6 +22,7 @@
     font-family:'Inter','Work Sans',sans-serif;
   }
   * { box-sizing:border-box; }
+  html, body{ margin:0; padding:0; background:var(--paper-2); }
   #app{
     background:var(--paper-2);
     min-height:100%;
@@ -420,6 +427,8 @@
     .save-bar-inner{ max-width:940px; }
   }
 </style>
+</head>
+<body>
 
 <div id="app">
   <div class="badge-header">
@@ -1203,3 +1212,5 @@
   loadEntries();
 })();
 </script>
+</body>
+</html>
