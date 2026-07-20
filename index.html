@@ -1,0 +1,1205 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#181B22;
+    --ink-soft:#6B7280;
+    --paper:#FFFFFF;
+    --paper-2:#F6F6F8;
+    --accent:#FF5A1F;
+    --accent-soft:#FFE9DC;
+    --teal:#0F9B8E;
+    --teal-soft:#E3F5F2;
+    --line:#E6E6EA;
+    --danger:#D64B32;
+    --danger-soft:#FBE4DE;
+    font-family:'Inter','Work Sans',sans-serif;
+  }
+  * { box-sizing:border-box; }
+  #app{
+    background:var(--paper-2);
+    min-height:100%;
+    color:var(--ink);
+    padding:0 0 96px 0;
+    max-width:480px;
+    margin:0 auto;
+    font-family:'Inter','Work Sans',Arial,sans-serif;
+    transition:max-width .2s;
+  }
+  .badge-header{
+    background:var(--paper);
+    padding:26px 20px 20px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:700;
+    margin:0 0 10px 0;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:26px;
+    line-height:1.15;
+    margin:0 0 6px 0;
+    letter-spacing:-.01em;
+    color:var(--ink);
+  }
+  .subtitle{
+    color:var(--ink-soft);
+    font-size:13px;
+    margin:0;
+    max-width:340px;
+  }
+  .tabs{
+    display:flex;
+    gap:4px;
+    margin:16px 20px 0 20px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:4px;
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:10px 4px;
+    font-size:13px;
+    font-weight:600;
+    border-radius:9px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    user-select:none;
+    transition:background .15s, color .15s;
+  }
+  .tab.active{ background:var(--ink); color:#fff; }
+  .view{ display:none; padding:16px 20px 0 20px; }
+  .view.active{ display:block; animation:viewIn .18s ease; }
+  @keyframes viewIn{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:translateY(0); } }
+
+  .card{
+    background:var(--paper);
+    color:var(--ink);
+    border:none;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:14px;
+    box-shadow:0 10px 26px rgba(24,27,34,.06), 0 2px 6px rgba(24,27,34,.04);
+  }
+  .card h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-weight:700;
+    margin:0 0 3px 0;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .card .stepnum{
+    background:var(--paper-2);
+    color:var(--ink);
+    border:1px solid var(--line);
+    width:26px;height:26px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .card .hint{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin:0 0 12px 0;
+  }
+  label.field-label{
+    display:block;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin:12px 0 6px 0;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  input[type=text], textarea{
+    width:100%;
+    border:1.5px solid var(--line);
+    background:var(--paper-2);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:15px;
+    font-family:'Inter','Work Sans',Arial,sans-serif;
+    color:var(--ink);
+    resize:none;
+    transition:border-color .12s, background .12s;
+  }
+  textarea{ min-height:52px; }
+  input[type=text]:focus, textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    border:1.5px solid var(--line);
+    background:var(--paper-2);
+    color:var(--ink);
+    padding:8px 13px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    user-select:none;
+    transition:all .12s;
+    white-space:nowrap;
+  }
+  .chip.selected{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+  .chip.selected.orange{
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  .row3{ display:flex; gap:8px; }
+  .row3 .chip{ flex:1; text-align:center; }
+
+  .journey-step{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:8px;
+  }
+  .journey-dot{
+    background:var(--ink);
+    color:#fff;
+    min-width:22px;height:22px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;
+    margin-top:6px;
+    flex-shrink:0;
+  }
+  .journey-step input{ flex:1; }
+
+  /* photos */
+  .photo-add-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--paper-2);
+    border:1.5px dashed var(--line);
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    margin-top:4px;
+    transition:border-color .12s, color .12s;
+  }
+  .photo-add-label:hover{ border-color:var(--accent); color:var(--accent); }
+  input[type=file]{ display:none; }
+  .photo-grid{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .photo-thumb{
+    position:relative;
+    width:60px;height:60px;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .photo-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-thumb .rm{
+    position:absolute; top:2px; right:2px;
+    background:rgba(0,0,0,.65); color:#fff;
+    border:none; width:18px; height:18px;
+    border-radius:50%; font-size:11px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    z-index:2;
+  }
+  .photo-thumb.has-note::before{
+    content:"";
+    position:absolute; bottom:3px; left:3px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent); border:1.5px solid #fff;
+    z-index:2;
+  }
+  .photo-thumb.readonly{ width:40px; height:40px; }
+  .photo-strip{ display:flex; gap:6px; margin-top:10px; }
+  .photo-strip .photo-thumb{ width:34px; height:34px; border-radius:8px; }
+  .photo-strip .more-count{
+    width:34px; height:34px; border-radius:8px;
+    background:var(--paper-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:var(--ink-soft);
+  }
+
+  .save-bar{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    display:flex;
+    justify-content:center;
+    background:linear-gradient(to top, rgba(246,246,248,1) 65%, rgba(246,246,248,0));
+    padding:18px 18px 14px 18px;
+    z-index:20;
+  }
+  .save-bar-inner{ max-width:480px; width:100%; display:flex; gap:8px; }
+  button.primary{
+    flex:1;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:14px;
+    font-weight:700;
+    font-size:14.5px;
+    font-family:'Space Grotesk',sans-serif;
+    cursor:pointer;
+    transition:filter .12s;
+    box-shadow:0 8px 20px rgba(255,90,31,.28);
+  }
+  button.primary:hover{ filter:brightness(1.05); }
+  button.primary:active{ filter:brightness(.95); }
+  button.secondary{
+    background:var(--paper);
+    color:var(--ink);
+    border:none;
+    padding:14px 16px;
+    border-radius:14px;
+    font-weight:700;
+    font-size:13.5px;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(24,27,34,.08);
+  }
+
+  .entry-card{
+    background:var(--paper);
+    color:var(--ink);
+    border:none;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:12px;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(24,27,34,.06), 0 2px 6px rgba(24,27,34,.04);
+    animation:cardIn .22s ease both;
+  }
+  @keyframes cardIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
+  .entry-card-top{ display:flex; align-items:flex-start; gap:12px; }
+  .entry-icon{
+    width:36px; height:36px; border-radius:50%;
+    background:var(--paper-2); color:var(--ink);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; font-weight:700; font-family:'Space Grotesk',sans-serif;
+    flex-shrink:0;
+  }
+  .entry-card .ename{ font-weight:700; font-size:15.5px; margin:0 0 4px 0; font-family:'Space Grotesk',sans-serif;}
+  .entry-card .emeta{ font-size:12px; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .entry-tag{
+    background:var(--paper-2); border:1px solid var(--line);
+    color:var(--ink-soft); font-size:11px; font-weight:600;
+    padding:3px 9px; border-radius:20px;
+  }
+  .entry-detail{
+    margin-top:10px;
+    font-size:13px;
+    line-height:1.5;
+    display:none;
+    border-top:1px solid var(--line);
+    padding-top:10px;
+  }
+  .entry-detail.open{ display:block; animation:detailIn .18s ease; }
+  @keyframes detailIn{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:translateY(0); } }
+  .detail-grid{ display:flex; flex-direction:column; }
+  .detail-row{ padding:8px 0; border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:3px; }
+  .detail-row:last-child{ border-bottom:none; }
+  .detail-label{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:700; }
+  .detail-value{ font-size:13.5px; color:var(--ink); }
+  .detail-photos{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  .detail-photos .photo-thumb{ width:64px; height:64px; border-radius:10px; }
+  .entry-detail b{ color:var(--ink); }
+  .entry-actions{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  .entry-actions button{
+    font-size:12px; padding:7px 10px; border-radius:8px; border:none; font-weight:700; cursor:pointer;
+  }
+  .btn-del{ background:var(--danger-soft); color:#8A2E1A; }
+  .btn-export{ background:var(--teal-soft); color:#0E5C51; }
+  .btn-edit{ background:var(--accent-soft); color:#9A3B10; }
+
+  .empty{
+    text-align:center;
+    color:#9098AC;
+    font-size:13px;
+    padding:40px 20px;
+  }
+  .toast{
+    position:fixed;
+    bottom:90px; left:50%;
+    transform:translateX(-50%);
+    background:var(--ink);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    opacity:0;
+    transition:opacity .25s;
+    z-index:30;
+    pointer-events:none;
+    white-space:nowrap;
+  }
+  .toast.show{ opacity:1; }
+  .counter-pill{
+    background:var(--accent);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    border-radius:10px;
+    padding:2px 8px;
+    margin-left:6px;
+  }
+
+  /* confirm modal */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(20,20,28,.5);
+    display:flex; align-items:center; justify-content:center;
+    z-index:50; opacity:0; pointer-events:none;
+    transition:opacity .15s;
+    padding:20px;
+  }
+  .modal-overlay.show{ opacity:1; pointer-events:auto; }
+  .modal-box{
+    background:#fff; border-radius:16px; padding:22px;
+    max-width:320px; width:100%;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .photo-modal-box{ max-width:380px; max-height:88vh; overflow-y:auto; }
+  .photo-modal-img{
+    width:100%; max-height:50vh; object-fit:contain;
+    border-radius:12px; margin-bottom:14px; background:var(--paper-2);
+  }
+  .modal-title{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; margin:0 0 8px 0; }
+  .modal-text{ font-size:13.5px; color:var(--ink-soft); margin:0 0 18px 0; line-height:1.5; }
+  .modal-actions{ display:flex; gap:10px; justify-content:flex-end; }
+  .btn-del-confirm{
+    background:var(--danger); color:#fff; border:none;
+    padding:10px 16px; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer;
+  }
+
+  /* responsive: tablet / desktop */
+  @media (min-width:760px){
+    #app{ max-width:940px; }
+    .view.active{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      align-content:start;
+    }
+    .view.active .card{ margin-bottom:0; }
+    .view#view-novo.active .card:first-child{ grid-column:1 / -1; }
+    #lista-container{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      align-items:start;
+    }
+    #lista-container .empty{ grid-column:1 / -1; }
+    .save-bar-inner{ max-width:940px; }
+  }
+</style>
+
+<div id="app">
+  <div class="badge-header">
+    <div class="eyebrow">Crachá de Campo · Field Kit</div>
+    <h1>Ativação em Eventos</h1>
+    <p class="subtitle">Benchmark de estandes, ao vivo, andando pelo evento.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="novo">Novo registro</div>
+    <div class="tab" data-tab="lista">Registros <span class="counter-pill" id="countPill">0</span></div>
+  </div>
+
+  <!-- NOVO REGISTRO -->
+  <div class="view active" id="view-novo">
+
+    <div class="card">
+      <h2><span class="stepnum">1</span> Identificação rápida</h2>
+      <label class="field-label">Nome da marca</label>
+      <input type="text" id="f-marca" placeholder="Ex: Notion, SAP, Nubank...">
+      <label class="field-label">Tamanho do estande</label>
+      <div class="chips" data-group="tamanho">
+        <div class="chip" data-val="Pequeno (Balcão)">Pequeno</div>
+        <div class="chip" data-val="Médio">Médio</div>
+        <div class="chip" data-val="Megastande (Experiência)">Megastande</div>
+      </div>
+      <label class="field-label">Fluxo de pessoas</label>
+      <div class="chips" data-group="fluxo">
+        <div class="chip" data-val="Vazio">Vazio</div>
+        <div class="chip" data-val="Moderado">Moderado</div>
+        <div class="chip" data-val="Fila/Lotação">Fila/Lotação</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="stepnum">2</span> A isca (atração inicial)</h2>
+      <p class="hint">O que fez as pessoas pararem? Pode marcar mais de um.</p>
+      <label class="field-label">Gancho visual</label>
+      <div class="chips" data-group="ganchoVisual" data-multi="1">
+        <div class="chip" data-val="Telões interativos">Telões</div>
+        <div class="chip" data-val="Iluminação/Letreiro Neon">Neon/Luz</div>
+        <div class="chip" data-val="Brindes expostos">Brindes expostos</div>
+        <div class="chip" data-val="Mascote/Atores">Mascote/Atores</div>
+      </div>
+      <label class="field-label">Gancho de gamificação</label>
+      <div class="chips" data-group="ganchoGame" data-multi="1">
+        <div class="chip" data-val="Roleta de prêmios">Roleta</div>
+        <div class="chip" data-val="Quiz em tablet">Quiz/Tablet</div>
+        <div class="chip" data-val="Simulador/VR">Simulador/VR</div>
+        <div class="chip" data-val="Desafio físico">Desafio físico</div>
+      </div>
+      <label class="field-label">Anotação rápida</label>
+      <textarea id="f-isca-nota" placeholder="Ex: fila gigante pra roleta depois de seguir no Insta"></textarea>
+    </div>
+
+    <div class="card">
+      <h2><span class="stepnum">3</span> Jornada de ativação</h2>
+      <p class="hint">Como o visitante consome a experiência.</p>
+      <div class="journey-step"><div class="journey-dot">1</div><input type="text" id="f-jor-1" placeholder="Entrada — ex: escanear QR Code"></div>
+      <div class="journey-step"><div class="journey-dot">2</div><input type="text" id="f-jor-2" placeholder="Ação — ex: ouvir pitch de 1 min"></div>
+      <div class="journey-step"><div class="journey-dot">3</div><input type="text" id="f-jor-3" placeholder="Recompensa — ex: ganhar ecobag"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="stepnum">4</span> Conexão com o produto digital</h2>
+      <label class="field-label">Demonstração</label>
+      <div class="chips" data-group="demo" data-multi="1">
+        <div class="chip" data-val="Telas com software rodando">Telas rodando</div>
+        <div class="chip" data-val="QR Code para teste grátis">QR teste grátis</div>
+        <div class="chip" data-val="Especialistas tirando dúvidas">Especialistas no local</div>
+      </div>
+      <label class="field-label">Abordagem comercial</label>
+      <div class="chips" data-group="abordagem">
+        <div class="chip" data-val="Venda direta com desconto">Venda direta</div>
+        <div class="chip" data-val="Foco em gerar Lead">Foco em lead</div>
+        <div class="chip" data-val="Cupom físico p/ depois">Cupom p/ depois</div>
+      </div>
+      <label class="field-label">Como eles capturam o lead? <span style="text-transform:none;font-weight:400;">(seu foco no evento)</span></label>
+      <div class="chips" data-group="captura" data-multi="1">
+        <div class="chip" data-val="Scanner de crachá">Scanner de crachá</div>
+        <div class="chip" data-val="QR Code próprio">QR Code próprio</div>
+        <div class="chip" data-val="Formulário em tablet/papel">Formulário</div>
+        <div class="chip" data-val="Troca de cartão/contato manual">Troca manual</div>
+        <div class="chip" data-val="Nenhuma captura visível">Nenhuma captura</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="stepnum">5</span> O brinde (swag)</h2>
+      <label class="field-label">Item distribuído</label>
+      <input type="text" id="f-brinde-item" placeholder="Ex: garrafa, adesivo, camiseta...">
+      <label class="field-label">Qualidade percebida</label>
+      <div class="row3 chips" data-group="qualidade">
+        <div class="chip" data-val="Baixa">Baixa</div>
+        <div class="chip" data-val="Média">Média</div>
+        <div class="chip" data-val="Alta">Alta</div>
+      </div>
+      <label class="field-label">Custo estimado</label>
+      <div class="row3 chips" data-group="custo">
+        <div class="chip" data-val="Barato">Barato</div>
+        <div class="chip" data-val="Médio">Médio</div>
+        <div class="chip" data-val="Caro">Caro</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="stepnum">6</span> Insights & fotos</h2>
+      <label class="field-label">O que mais chamou atenção</label>
+      <textarea id="f-insight-bom" placeholder="..."></textarea>
+      <label class="field-label">O que deu errado / gargalo</label>
+      <textarea id="f-insight-ruim" placeholder="..."></textarea>
+      <label class="field-label">Fotos do estande</label>
+      <label class="photo-add-label" for="f-foto-input">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar fotos
+      </label>
+      <input type="file" id="f-foto-input" accept="image/*" multiple>
+      <div class="photo-grid" id="photo-preview"></div>
+    </div>
+
+  </div>
+
+  <!-- LISTA -->
+  <div class="view" id="view-lista">
+    <div id="lista-container"></div>
+  </div>
+
+  <div class="save-bar" id="saveBarNovo">
+    <div class="save-bar-inner">
+      <button class="secondary" id="btnLimpar">Limpar</button>
+      <button class="primary" id="btnSalvar">Salvar estande</button>
+    </div>
+  </div>
+  <div class="save-bar" id="saveBarLista" style="display:none;">
+    <div class="save-bar-inner">
+      <button class="secondary" id="btnExportarPlanilha">Copiar para planilha</button>
+      <button class="primary" id="btnExportarTudo">Copiar como texto</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <p class="modal-title">Excluir registro</p>
+      <p class="modal-text">Tem certeza que deseja excluir este estande? Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button class="secondary" id="modalCancel">Cancelar</button>
+        <button class="btn-del-confirm" id="modalConfirm">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="photoModal">
+    <div class="modal-box photo-modal-box">
+      <p class="modal-title">Foto do estande</p>
+      <img class="photo-modal-img" id="photoModalImg" src="" alt="Foto ampliada">
+      <label class="field-label">Comentário</label>
+      <textarea id="photoModalNote" placeholder="Ex: fila na entrada, mascote atraindo público..."></textarea>
+      <div class="modal-actions" style="margin-top:14px;">
+        <button class="secondary" id="photoModalClose">Fechar</button>
+        <button class="primary" id="photoModalSave" style="flex:none;">Salvar comentário</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<!--
+  ============================================================
+  FIREBASE (opcional) — veja o passo a passo no final da resposta.
+  Os dois scripts abaixo carregam o SDK "compat" do Firebase,
+  mais simples de usar em uma página solta como esta.
+  Enquanto USE_FIREBASE estiver "false", a página continua
+  salvando localmente (window.storage), sem precisar de nada configurado.
+  ============================================================
+-->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'ativacao-eventos-entries';
+
+  // ---------- FIREBASE CONFIG ----------
+  // 1) Preencha os valores abaixo com os dados do SEU projeto Firebase.
+  // 2) Depois de preencher, troque USE_FIREBASE para true.
+  // Veja o passo a passo completo ao final da resposta do Claude.
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBurjImAXQt_sneOt0n6rYgsCGK97mwU1o",
+    authDomain: "ativacaoeventos-4d776.firebaseapp.com",
+    projectId: "ativacaoeventos-4d776",
+    storageBucket: "ativacaoeventos-4d776.firebasestorage.app",
+    messagingSenderId: "645863889096",
+    appId: "1:645863889096:web:a53d9ad55e949b9f18adfd"
+  };
+  const USE_FIREBASE = true;
+
+  let entriesCollection = null;
+  if(USE_FIREBASE){
+    try{
+      firebase.initializeApp(FIREBASE_CONFIG);
+      entriesCollection = firebase.firestore().collection('ativacao_eventos');
+    }catch(e){
+      console.error('Erro ao iniciar Firebase:', e);
+    }
+  }
+  // --------------------------------------
+
+  let entries = [];
+  let selections = {}; // group -> value or [values]
+  let expandedId = null;
+  let editingId = null;
+  let currentPhotos = []; // { src, note } — fotos do formulário atual
+  let pendingDeleteId = null;
+  let photoModalContext = null; // { mode:'form'|'entry', index, entryId }
+
+  // Normaliza fotos antigas (string) e novas ({src, note}) para o mesmo formato
+  function normalizePhotos(fotos){
+    if(!Array.isArray(fotos)) return [];
+    return fotos.map(f => typeof f === 'string' ? { src: f, note: '' } : { src: f.src, note: f.note || '' });
+  }
+
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  function toast(msg){
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=> t.classList.remove('show'), 1800);
+  }
+
+  // Chip logic
+  $$('.chips').forEach(group=>{
+    const groupName = group.dataset.group;
+    const multi = group.dataset.multi === '1';
+    if(!(groupName in selections)) selections[groupName] = multi ? [] : null;
+    $$('.chip', group).forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        const val = chip.dataset.val;
+        if(multi){
+          const arr = selections[groupName];
+          const idx = arr.indexOf(val);
+          if(idx === -1){ arr.push(val); chip.classList.add('selected'); }
+          else { arr.splice(idx,1); chip.classList.remove('selected'); }
+        } else {
+          if(selections[groupName] === val){
+            selections[groupName] = null;
+            chip.classList.remove('selected');
+          } else {
+            selections[groupName] = val;
+            $$('.chip', group).forEach(c=>c.classList.remove('selected'));
+            chip.classList.add('selected');
+          }
+        }
+      });
+    });
+  });
+
+  function setSelection(groupName, value, multi){
+    const group = $(`.chips[data-group="${groupName}"]`);
+    if(!group) return;
+    if(multi){
+      selections[groupName] = Array.isArray(value) ? [...value] : [];
+      $$('.chip', group).forEach(c=>{
+        c.classList.toggle('selected', selections[groupName].includes(c.dataset.val));
+      });
+    } else {
+      selections[groupName] = value || null;
+      $$('.chip', group).forEach(c=>{
+        c.classList.toggle('selected', c.dataset.val === value);
+      });
+    }
+  }
+
+  // Tabs
+  $$('.tab').forEach(tab=>{
+    tab.addEventListener('click', ()=> activateTab(tab.dataset.tab));
+  });
+
+  function activateTab(target){
+    $$('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab === target));
+    $$('.view').forEach(v=>v.classList.remove('active'));
+    $('#view-'+target).classList.add('active');
+    $('#saveBarNovo').style.display = target === 'novo' ? 'flex' : 'none';
+    $('#saveBarLista').style.display = target === 'lista' ? 'flex' : 'none';
+    if(target === 'lista') renderList();
+  }
+
+  function resetForm(){
+    $$('input[type=text], textarea', document).forEach(el=> el.value = '');
+    $$('.chips').forEach(group=>{
+      const groupName = group.dataset.group;
+      const multi = group.dataset.multi === '1';
+      selections[groupName] = multi ? [] : null;
+      $$('.chip', group).forEach(c=>c.classList.remove('selected'));
+    });
+    currentPhotos = [];
+    renderPhotoPreview();
+  }
+
+  function exitEditMode(){
+    editingId = null;
+    $('#btnSalvar').textContent = 'Salvar estande';
+  }
+
+  function collectForm(){
+    return {
+      marca: $('#f-marca').value.trim(),
+      tamanho: selections['tamanho'],
+      fluxo: selections['fluxo'],
+      ganchoVisual: [...selections['ganchoVisual']],
+      ganchoGame: [...selections['ganchoGame']],
+      iscaNota: $('#f-isca-nota').value.trim(),
+      jornada: [$('#f-jor-1').value.trim(), $('#f-jor-2').value.trim(), $('#f-jor-3').value.trim()],
+      demo: [...selections['demo']],
+      abordagem: selections['abordagem'],
+      captura: [...selections['captura']],
+      brindeItem: $('#f-brinde-item').value.trim(),
+      qualidade: selections['qualidade'],
+      custo: selections['custo'],
+      insightBom: $('#f-insight-bom').value.trim(),
+      insightRuim: $('#f-insight-ruim').value.trim(),
+      fotos: currentPhotos.map(p => ({ src: p.src, note: p.note || '' })),
+      savedAt: new Date().toLocaleString('pt-BR'),
+      savedAtTS: Date.now()
+    };
+  }
+
+  function loadEntryIntoForm(entry){
+    $('#f-marca').value = entry.marca || '';
+    setSelection('tamanho', entry.tamanho);
+    setSelection('fluxo', entry.fluxo);
+    setSelection('ganchoVisual', entry.ganchoVisual, true);
+    setSelection('ganchoGame', entry.ganchoGame, true);
+    $('#f-isca-nota').value = entry.iscaNota || '';
+    $('#f-jor-1').value = (entry.jornada && entry.jornada[0]) || '';
+    $('#f-jor-2').value = (entry.jornada && entry.jornada[1]) || '';
+    $('#f-jor-3').value = (entry.jornada && entry.jornada[2]) || '';
+    setSelection('demo', entry.demo, true);
+    setSelection('abordagem', entry.abordagem);
+    setSelection('captura', entry.captura, true);
+    $('#f-brinde-item').value = entry.brindeItem || '';
+    setSelection('qualidade', entry.qualidade);
+    setSelection('custo', entry.custo);
+    $('#f-insight-bom').value = entry.insightBom || '';
+    $('#f-insight-ruim').value = entry.insightRuim || '';
+    currentPhotos = normalizePhotos(entry.fotos);
+    renderPhotoPreview();
+  }
+
+  // ---------- Fotos: transforma em texto (base64) e comprime ----------
+  function fileToCompressedBase64(file, maxWidth=800, quality=0.7){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = (e)=>{
+        const img = new Image();
+        img.onload = ()=>{
+          let w = img.width, h = img.height;
+          if(w > maxWidth){ h = Math.round(h * (maxWidth / w)); w = maxWidth; }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPhotoPreview(){
+    const box = $('#photo-preview');
+    box.innerHTML = currentPhotos.map((p, i)=>`
+      <div class="photo-thumb ${p.note ? 'has-note' : ''}" data-idx="${i}">
+        <img src="${p.src}" alt="Foto ${i+1}">
+        <button class="rm" data-idx="${i}" title="Remover">✕</button>
+      </div>
+    `).join('');
+    $$('.rm', box).forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        const idx = parseInt(btn.dataset.idx, 10);
+        currentPhotos.splice(idx, 1);
+        renderPhotoPreview();
+      });
+    });
+    $$('.photo-thumb', box).forEach(thumb=>{
+      thumb.addEventListener('click', ()=>{
+        const idx = parseInt(thumb.dataset.idx, 10);
+        openPhotoModal('form', currentPhotos[idx], { index: idx });
+      });
+    });
+  }
+
+  $('#f-foto-input').addEventListener('change', async (ev)=>{
+    const files = Array.from(ev.target.files || []);
+    for(const file of files){
+      try{
+        const base64 = await fileToCompressedBase64(file);
+        currentPhotos.push({ src: base64, note: '' });
+      }catch(e){
+        toast('Não foi possível carregar uma das fotos');
+      }
+    }
+    renderPhotoPreview();
+    ev.target.value = '';
+  });
+
+  // ---------- Persistência ----------
+  // window.storage só existe dentro do preview de artifact do Claude.
+  // Se a página for aberta como arquivo solto (fora do Claude), usamos
+  // localStorage do próprio navegador como alternativa automática.
+  const hasArtifactStorage = (typeof window.storage !== 'undefined')
+    && window.storage && typeof window.storage.get === 'function';
+
+  async function storageGet(key){
+    if(hasArtifactStorage){
+      return await window.storage.get(key, false);
+    }
+    const raw = localStorage.getItem(key);
+    return raw ? { key, value: raw } : null;
+  }
+
+  async function storageSet(key, value){
+    if(hasArtifactStorage){
+      return await window.storage.set(key, value, false);
+    }
+    localStorage.setItem(key, value);
+    return { key, value };
+  }
+
+  async function loadEntries(){
+    try{
+      if(USE_FIREBASE && entriesCollection){
+        const snap = await entriesCollection.orderBy('savedAtTS', 'desc').get();
+        entries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } else {
+        const res = await storageGet(STORAGE_KEY);
+        entries = res && res.value ? JSON.parse(res.value) : [];
+      }
+    }catch(e){
+      entries = [];
+    }
+    updateCounter();
+  }
+
+  async function persistLocal(){
+    try{
+      await storageSet(STORAGE_KEY, JSON.stringify(entries));
+    }catch(e){
+      toast('Erro ao salvar localmente. Tente novamente.');
+    }
+  }
+
+  function updateCounter(){
+    $('#countPill').textContent = entries.length;
+  }
+
+  $('#btnSalvar').addEventListener('click', async ()=>{
+    const marca = $('#f-marca').value.trim();
+    if(!marca){
+      toast('Digite o nome da marca primeiro');
+      $('#f-marca').focus();
+      return;
+    }
+    const entryData = collectForm();
+
+    try{
+      if(editingId){
+        entryData.id = editingId;
+        if(USE_FIREBASE && entriesCollection){
+          const { id, ...data } = entryData;
+          await entriesCollection.doc(id).set(data);
+        }
+        const idx = entries.findIndex(e => e.id === editingId);
+        if(idx > -1) entries[idx] = entryData; else entries.unshift(entryData);
+        if(!USE_FIREBASE) await persistLocal();
+        toast('Estande atualizado');
+      } else {
+        if(USE_FIREBASE && entriesCollection){
+          const { id, ...data } = entryData;
+          const ref = await entriesCollection.add(data);
+          entryData.id = ref.id;
+        } else {
+          entryData.id = Date.now().toString();
+        }
+        entries.unshift(entryData);
+        if(!USE_FIREBASE) await persistLocal();
+        toast('Estande salvo');
+      }
+    }catch(e){
+      toast('Erro ao salvar. Confira sua conexão/config do Firebase.');
+      return;
+    }
+
+    updateCounter();
+    exitEditMode();
+    resetForm();
+  });
+
+  $('#btnLimpar').addEventListener('click', ()=>{
+    resetForm();
+    exitEditMode();
+    toast('Formulário limpo');
+  });
+
+  function entryToText(e){
+    const lines = [];
+    lines.push(`MARCA: ${e.marca}`);
+    lines.push(`Tamanho do estande: ${e.tamanho || '-'} | Fluxo: ${e.fluxo || '-'}`);
+    lines.push(`Isca visual: ${(e.ganchoVisual||[]).join(', ') || '-'}`);
+    lines.push(`Isca gamificação: ${(e.ganchoGame||[]).join(', ') || '-'}`);
+    if(e.iscaNota) lines.push(`Nota isca: ${e.iscaNota}`);
+    lines.push(`Jornada: ${(e.jornada||[]).filter(Boolean).join(' → ') || '-'}`);
+    lines.push(`Demonstração: ${(e.demo||[]).join(', ') || '-'} | Abordagem: ${e.abordagem || '-'}`);
+    lines.push(`Captura de lead: ${(e.captura||[]).join(', ') || '-'}`);
+    lines.push(`Brinde: ${e.brindeItem || '-'} (qualidade: ${e.qualidade || '-'}, custo: ${e.custo || '-'})`);
+    if(e.insightBom) lines.push(`Chamou atenção: ${e.insightBom}`);
+    if(e.insightRuim) lines.push(`Gargalo: ${e.insightRuim}`);
+    const fotosTxt = normalizePhotos(e.fotos);
+    if(fotosTxt.length){
+      lines.push(`Fotos: ${fotosTxt.length} anexada(s)`);
+      fotosTxt.forEach((p, i)=>{ if(p.note) lines.push(`  Comentário (foto ${i+1}): ${p.note}`); });
+    } else {
+      lines.push('Fotos: -');
+    }
+    lines.push(`Registrado em: ${e.savedAt}`);
+    return lines.join('\n');
+  }
+
+  // Linhas rótulo/valor usadas no card de registro (mais claras que um texto corrido)
+  function entryDetailRows(e){
+    const rows = [];
+    rows.push(['Tamanho do estande', e.tamanho || '—']);
+    rows.push(['Fluxo de pessoas', e.fluxo || '—']);
+    rows.push(['Gancho visual', (e.ganchoVisual||[]).join(', ') || '—']);
+    rows.push(['Gancho de gamificação', (e.ganchoGame||[]).join(', ') || '—']);
+    if(e.iscaNota) rows.push(['Nota sobre a isca', e.iscaNota]);
+    const jornadaTxt = (e.jornada||[]).filter(Boolean).join('  →  ');
+    rows.push(['Jornada de ativação', jornadaTxt || '—']);
+    rows.push(['Demonstração do produto', (e.demo||[]).join(', ') || '—']);
+    rows.push(['Abordagem comercial', e.abordagem || '—']);
+    rows.push(['Captura de lead', (e.captura||[]).join(', ') || '—']);
+    rows.push(['Brinde distribuído', e.brindeItem || '—']);
+    rows.push(['Qualidade / custo do brinde', `${e.qualidade || '—'} · ${e.custo || '—'}`]);
+    if(e.insightBom) rows.push(['O que mais chamou atenção', e.insightBom]);
+    if(e.insightRuim) rows.push(['O que deu errado / gargalo', e.insightRuim]);
+    rows.push(['Registrado em', e.savedAt]);
+    return rows;
+  }
+
+  function renderList(){
+    const container = $('#lista-container');
+    if(entries.length === 0){
+      container.innerHTML = '<div class="empty">Nenhum estande registrado ainda.<br>Vá até a aba "Novo registro" e comece a coletar.</div>';
+      return;
+    }
+    container.innerHTML = entries.map(e=>{
+      const tags = [e.tamanho, e.fluxo].filter(Boolean)
+        .map(t=>`<span class="entry-tag">${escapeHtml(t)}</span>`).join('');
+      const fotos = normalizePhotos(e.fotos);
+      const stripMax = 4;
+      const stripThumbs = fotos.slice(0, stripMax).map((p, i)=>`<div class="photo-thumb readonly ${p.note ? 'has-note' : ''}" data-entry-id="${e.id}" data-idx="${i}"><img src="${p.src}"></div>`).join('');
+      const moreCount = fotos.length > stripMax ? `<div class="more-count">+${fotos.length - stripMax}</div>` : '';
+      const photoStrip = fotos.length ? `<div class="photo-strip">${stripThumbs}${moreCount}</div>` : '';
+      const detailRows = entryDetailRows(e).map(([label,value])=>`
+        <div class="detail-row">
+          <span class="detail-label">${escapeHtml(label)}</span>
+          <span class="detail-value">${escapeHtml(value)}</span>
+        </div>`).join('');
+      const detailPhotos = fotos.length ? `
+        <div class="detail-row" style="border-bottom:none;">
+          <span class="detail-label">Fotos anexadas (${fotos.length}) — toque para ver e comentar</span>
+          <div class="detail-photos">${fotos.map((p, i)=>`<div class="photo-thumb ${p.note ? 'has-note' : ''}" data-entry-id="${e.id}" data-idx="${i}"><img src="${p.src}"></div>`).join('')}</div>
+        </div>` : '';
+      return `
+      <div class="entry-card" data-id="${e.id}">
+        <div class="entry-card-top">
+          <div class="entry-icon">${escapeHtml((e.marca || '?').trim().charAt(0).toUpperCase())}</div>
+          <div style="flex:1;min-width:0;">
+            <p class="ename">${escapeHtml(e.marca || '(sem nome)')}</p>
+            <p class="emeta">${tags}<span>${e.savedAt}</span></p>
+            ${photoStrip}
+          </div>
+        </div>
+        <div class="entry-detail ${expandedId === e.id ? 'open' : ''}" id="detail-${e.id}">
+          <div class="detail-grid">${detailRows}</div>
+          ${detailPhotos}
+          <div class="entry-actions">
+            <button class="btn-edit" data-action="edit" data-id="${e.id}">Editar</button>
+            <button class="btn-export" data-action="copy" data-id="${e.id}">Copiar</button>
+            <button class="btn-del" data-action="del" data-id="${e.id}">Excluir</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    $$('.entry-card', container).forEach(card=>{
+      card.addEventListener('click', (ev)=>{
+        if(ev.target.closest('button')) return;
+        const id = card.dataset.id;
+        expandedId = expandedId === id ? null : id;
+        renderList();
+      });
+    });
+    $$('button[data-action="edit"]', container).forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        const id = btn.dataset.id;
+        const e = entries.find(x=> x.id === id);
+        if(!e) return;
+        editingId = id;
+        loadEntryIntoForm(e);
+        $('#btnSalvar').textContent = 'Atualizar estande';
+        activateTab('novo');
+        window.scrollTo({top:0, behavior:'smooth'});
+        toast('Editando estande — altere os campos e salve');
+      });
+    });
+    $$('button[data-action="del"]', container).forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        pendingDeleteId = btn.dataset.id;
+        $('#confirmModal').classList.add('show');
+      });
+    });
+    $$('button[data-action="copy"]', container).forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        const id = btn.dataset.id;
+        const e = entries.find(x=> x.id === id);
+        copyText(entryToText(e));
+        toast('Copiado');
+      });
+    });
+    $$('.photo-thumb[data-entry-id]', container).forEach(thumb=>{
+      thumb.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        const entryId = thumb.dataset.entryId;
+        const idx = parseInt(thumb.dataset.idx, 10);
+        const e = entries.find(x=> x.id === entryId);
+        if(!e) return;
+        const fotos = normalizePhotos(e.fotos);
+        openPhotoModal('entry', fotos[idx], { entryId, index: idx });
+      });
+    });
+  }
+
+  // ---------- Confirmação de exclusão ----------
+  $('#modalCancel').addEventListener('click', ()=>{
+    pendingDeleteId = null;
+    $('#confirmModal').classList.remove('show');
+  });
+  $('#modalConfirm').addEventListener('click', async ()=>{
+    const id = pendingDeleteId;
+    $('#confirmModal').classList.remove('show');
+    if(!id) return;
+    try{
+      if(USE_FIREBASE && entriesCollection){
+        await entriesCollection.doc(id).delete();
+      }
+      entries = entries.filter(e => e.id !== id);
+      if(!USE_FIREBASE) await persistLocal();
+      if(editingId === id){ exitEditMode(); resetForm(); }
+      updateCounter();
+      renderList();
+      toast('Registro excluído');
+    }catch(e){
+      toast('Erro ao excluir. Tente novamente.');
+    }
+    pendingDeleteId = null;
+  });
+
+  // ---------- Visualizador de foto + comentário ----------
+  function openPhotoModal(mode, photoObj, extra){
+    photoModalContext = { mode, index: extra.index, entryId: extra.entryId };
+    $('#photoModalImg').src = photoObj.src;
+    $('#photoModalNote').value = photoObj.note || '';
+    $('#photoModal').classList.add('show');
+  }
+
+  function closePhotoModal(){
+    $('#photoModal').classList.remove('show');
+    photoModalContext = null;
+  }
+
+  $('#photoModalClose').addEventListener('click', closePhotoModal);
+  $('#photoModal').addEventListener('click', (ev)=>{
+    if(ev.target.id === 'photoModal') closePhotoModal();
+  });
+
+  $('#photoModalSave').addEventListener('click', async ()=>{
+    if(!photoModalContext) return;
+    const note = $('#photoModalNote').value.trim();
+
+    if(photoModalContext.mode === 'form'){
+      currentPhotos[photoModalContext.index].note = note;
+      renderPhotoPreview();
+      closePhotoModal();
+      toast('Comentário salvo');
+      return;
+    }
+
+    const { entryId, index } = photoModalContext;
+    const entry = entries.find(x => x.id === entryId);
+    if(!entry){ closePhotoModal(); return; }
+    const fotos = normalizePhotos(entry.fotos);
+    fotos[index] = { ...fotos[index], note };
+    entry.fotos = fotos;
+
+    try{
+      if(USE_FIREBASE && entriesCollection){
+        await entriesCollection.doc(entryId).update({ fotos });
+      } else {
+        await persistLocal();
+      }
+      renderList();
+      toast('Comentário salvo');
+    }catch(e){
+      toast('Erro ao salvar comentário. Tente novamente.');
+    }
+    closePhotoModal();
+  });
+
+  $('#btnExportarTudo').addEventListener('click', ()=>{
+    if(entries.length === 0){ toast('Nenhum registro para copiar'); return; }
+    const all = entries.map(entryToText).join('\n\n---\n\n');
+    copyText(all);
+    toast('Todos os registros copiados');
+  });
+
+  const SHEET_HEADERS = [
+    'Marca','Tamanho estande','Fluxo de pessoas','Gancho visual','Gancho gamificação',
+    'Nota da isca','Jornada - Entrada','Jornada - Ação','Jornada - Recompensa',
+    'Demonstração produto','Abordagem comercial','Captura de lead',
+    'Brinde','Qualidade do brinde','Custo do brinde',
+    'Chamou atenção','Gargalo','Qtde de fotos','Registrado em'
+  ];
+
+  function entryToRow(e){
+    return [
+      e.marca, e.tamanho || '', e.fluxo || '',
+      (e.ganchoVisual||[]).join('; '), (e.ganchoGame||[]).join('; '), e.iscaNota,
+      (e.jornada||[])[0] || '', (e.jornada||[])[1] || '', (e.jornada||[])[2] || '',
+      (e.demo||[]).join('; '), e.abordagem || '', (e.captura||[]).join('; '),
+      e.brindeItem, e.qualidade || '', e.custo || '',
+      e.insightBom, e.insightRuim, (e.fotos ? e.fotos.length : 0), e.savedAt
+    ].map(v => String(v || '').replace(/\t/g,' ').replace(/\n/g,' '));
+  }
+
+  $('#btnExportarPlanilha').addEventListener('click', ()=>{
+    if(entries.length === 0){ toast('Nenhum registro para copiar'); return; }
+    const rows = [SHEET_HEADERS, ...entries.map(entryToRow)];
+    const tsv = rows.map(r => r.join('\t')).join('\n');
+    copyText(tsv);
+    toast('Copiado — cole direto na planilha');
+  });
+
+  function copyText(text){
+    try{
+      navigator.clipboard.writeText(text);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  loadEntries();
+})();
+</script>
